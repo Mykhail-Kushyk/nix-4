@@ -1,7 +1,6 @@
 package ua.com.alevel;
 
 import java.util.ArrayList;
-import java.util.function.IntToDoubleFunction;
 
 public class Main {
 

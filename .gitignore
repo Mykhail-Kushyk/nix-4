@@ -8,6 +8,7 @@
 *.class
 *.kotlin_module
 target/
+oop_nix/
 
 ### IntelliJ IDEA ###
 .idea
