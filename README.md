@@ -1,2 +1,2 @@
 # nix-4
-Please, open ran.bat to run app
+Please, open run.bat to run app
