@@ -34,7 +34,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.2.1</version>
                 <configuration>
-                    <mainClass>ua.com.alevel.Main</mainClass>
+                    <mainClass>ua.com.alevel.ConwayGameOfLife</mainClass>
                 </configuration>
             </plugin>
 
