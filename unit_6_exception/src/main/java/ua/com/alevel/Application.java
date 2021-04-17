@@ -16,7 +16,7 @@ public class Application {
     public void run() {
         showMainMenu();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String option = "";
+        String option;
         try {
             option = reader.readLine();
             if (option.equals("0") || option.equals("1") || option.equals("2")) {
@@ -34,7 +34,7 @@ public class Application {
                 run();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         run();
     }
@@ -97,8 +97,8 @@ public class Application {
                     date = new Date(input, formatter);
                 }
                 isOkay = true;
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage());
                 System.out.println("Format: " + formatter.getFormat().getFormat());
                 System.out.print("Input date again please: ");
             }
