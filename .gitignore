@@ -8,7 +8,7 @@
 *.class
 *.kotlin_module
 target/
-oop_nix/
+unit_7_collection/
 
 ### IntelliJ IDEA ###
 logs/
