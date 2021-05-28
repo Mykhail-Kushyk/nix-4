@@ -48,6 +48,13 @@ public class Graph {
         return sPath[endTree].distance;
     }
 
+    public int findShortestPathBetweenCities(int firstCity, int secondCity) {
+        int startTree = --firstCity;
+        int endTree = --secondCity;
+        findShortestPath(startTree);
+        return sPath[endTree].distance;
+    }
+
     private int indexOfCity(String city) {
         for (int i = 0; i < totalVerts; i++) {
             if (vertexList[i].getCityName().equals(city)) {
