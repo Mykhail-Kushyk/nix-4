@@ -5,13 +5,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
-public class Initializer {
+public class Factory {
 
     @SuppressWarnings("unchecked")
-    public<T> T initialize(Properties props, T object) {
+    public<T> T create(Properties props, Class<T> clazz) {
         try {
-
-            for (Field field : object.getClass().getFields()) {
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
+            T object = constructor.newInstance();
+            for (Field field : clazz.getFields()) {
                 if (field.isAnnotationPresent(PropertyKey.class)) {
                     PropertyKey key = field.getAnnotation(PropertyKey.class);
                     if (key == null) continue;
@@ -34,7 +35,7 @@ public class Initializer {
                 }
             }
             return object;
-        } catch (IllegalAccessException e) {
+        } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException | InstantiationException e) {
             throw new RuntimeException(e);
         }
     }
