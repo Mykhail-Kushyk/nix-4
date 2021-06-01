@@ -18,8 +18,7 @@ public class Runner {
     public static void main(String[] args) {
         Properties props = new Properties();
         String fileName = "jdbc.properties";
-        InputStream inputStream = Runner.class.getClassLoader().getResourceAsStream(fileName);
-        try {
+        try (InputStream inputStream = Runner.class.getClassLoader().getResourceAsStream(fileName)) {
             props.load(inputStream);
         } catch (IOException e) {
             e.printStackTrace();
