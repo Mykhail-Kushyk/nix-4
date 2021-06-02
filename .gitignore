@@ -8,7 +8,6 @@
 *.class
 *.kotlin_module
 target/
-unit_12_csv_parser/
 
 ### IntelliJ IDEA ###
 logs/
