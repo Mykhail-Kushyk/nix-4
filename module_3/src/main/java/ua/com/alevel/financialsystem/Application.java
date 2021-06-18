@@ -13,7 +13,6 @@ import ua.com.alevel.financialsystem.entity.Expense;
 import ua.com.alevel.financialsystem.entity.Income;
 import ua.com.alevel.financialsystem.entity.Operation;
 
-import javax.persistence.EntityManager;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,10 +46,9 @@ public class Application {
                          properties.getProperty("url"),
                          properties.getProperty("username"),
                          properties.getProperty("password")
-                 )
+                 );
+                 Session session = sessionFactory.openSession()
             ) {
-                EntityManager entityManager = sessionFactory.createEntityManager();
-                Session session = sessionFactory.openSession();
                 OperationJpaDao jpaDao = new OperationJpaDao(session);
                 BillJpaDao billJpaDao = new BillJpaDao(session);
                 OperationJdbcDao jdbcDao = new OperationJdbcDao(connection);
