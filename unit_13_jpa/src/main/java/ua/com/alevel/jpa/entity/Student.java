@@ -1,8 +1,8 @@
-package ua.com.alevel.entity;
+package ua.com.alevel.jpa.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Students")
@@ -10,6 +10,7 @@ public class Student {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "student_id")
     private Long id;
 
     @Column(name = "first_name", nullable = false)
@@ -19,14 +20,9 @@ public class Student {
     private String lastName;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "group_id")
     private Group group;
 
-    @ManyToMany
-    @JoinTable(
-            name = "students_grades",
-            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "grade_id", referencedColumnName = "id")
-    )
-    private Set<Grade> grades = new HashSet<>();
+    @OneToMany(mappedBy = "student")
+    private List<Grade> grades = new ArrayList<>();
 }

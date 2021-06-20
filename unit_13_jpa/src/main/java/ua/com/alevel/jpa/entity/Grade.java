@@ -1,8 +1,6 @@
-package ua.com.alevel.entity;
+package ua.com.alevel.jpa.entity;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "Grades")
@@ -10,11 +8,16 @@ public class Grade {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "grade_id")
     private Long id;
 
     @Column(nullable = false)
     private int rating;
 
-    @ManyToMany(mappedBy = "grades")
-    private Set<Student> students = new HashSet<>();
+    @ManyToOne
+    @JoinColumn(name = "student_id")
+    private Student student;
+
+    @Enumerated(EnumType.STRING)
+    private GradeType type;
 }

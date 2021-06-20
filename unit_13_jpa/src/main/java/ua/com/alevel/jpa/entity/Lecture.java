@@ -1,25 +1,26 @@
-package ua.com.alevel.entity;
+package ua.com.alevel.jpa.entity;
+
+import lombok.Getter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.Instant;
 
+@Getter
 @Entity
 @Table(name = "Lectures")
 public class Lecture {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "lecture_id")
     private Long id;
 
-    @Column(name = "start_time")
-    private LocalTime startTime;
-
     @Column(name = "start_date")
-    private LocalDate startDate;
+    private Instant startDate;
 
     private String topic;
 
     @ManyToOne()
-    private Teacher teacher;
+    @JoinColumn(name = "group_id")
+    private Group group;
 }

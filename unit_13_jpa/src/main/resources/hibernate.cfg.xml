@@ -15,12 +15,14 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
+        <property name="hibernate.connection.provider_class">
+            com.zaxxer.hikari.hibernate.HikariConnectionProvider</property>
+        <property name="hibernate.hikari.maximumPoolSize">1</property>
 
         <mapping class="ua.com.alevel.jpa.entity.Group"/>
         <mapping class="ua.com.alevel.jpa.entity.Lecture"/>
         <mapping class="ua.com.alevel.jpa.entity.Student"/>
         <mapping class="ua.com.alevel.jpa.entity.Teacher"/>
-        <mapping class="ua.com.alevel.jpa.entity.Course"/>
         <mapping class="ua.com.alevel.jpa.entity.Grade"/>
         <mapping class="ua.com.alevel.jpa.entity.TeacherGroup"/>
     </session-factory>
