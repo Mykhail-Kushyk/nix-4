@@ -1,2 +1,2 @@
-Total income: 350
-Balance: -700
+Total income: 500
+Balance: 500

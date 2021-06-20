@@ -2,9 +2,9 @@ package ua.com.alevel.financialsystem.entity;
 
 import lombok.Getter;
 import lombok.Setter;
-import ua.com.alevel.financialsystem.entity.categories.ExpenseType;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
 
 @Getter
 @Setter

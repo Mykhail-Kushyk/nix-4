@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -27,7 +25,7 @@ public class Bill {
     private User user;
 
     @OneToMany(mappedBy = "bill")
-    private Set<Operation> operations = new HashSet<>();
+    private List<Operation> operations = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {
@@ -35,13 +33,11 @@ public class Bill {
         if (o == null || getClass() != o.getClass()) return false;
         Bill bill = (Bill) o;
         return Objects.equals(id, bill.id) &&
-                Objects.equals(currentAmount, bill.currentAmount) &&
-                Objects.equals(user, bill.user) &&
-                Objects.equals(operations, bill.operations);
+                Objects.equals(currentAmount, bill.currentAmount);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, currentAmount, user, operations);
+        return Objects.hash(id, currentAmount);
     }
 }

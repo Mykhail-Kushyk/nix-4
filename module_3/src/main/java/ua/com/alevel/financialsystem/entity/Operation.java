@@ -6,9 +6,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -27,13 +25,13 @@ public class Operation {
     private Integer total;
 
     @OneToMany(mappedBy = "operation")
-    private Set<Category> categories = new HashSet<>();
+    private List<Category> categories = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "bill_id", nullable = false)
     private Bill bill;
 
-    public Operation(Long id, Set<Category> categories, Bill bill) {
+    public Operation(Long id, List<Category> categories, Bill bill) {
         this.id = id;
         this.bill = bill;
         this.categories = categories;
@@ -44,28 +42,11 @@ public class Operation {
         }
     }
 
-    public void setCategories(Set<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
         this.total = 0;
         for (Category category:categories) {
             this.total += category.getTotal();
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Operation operation = (Operation) o;
-        return Objects.equals(id, operation.id) &&
-                Objects.equals(date, operation.date) &&
-                Objects.equals(total, operation.total) &&
-                Objects.equals(categories, operation.categories) &&
-                Objects.equals(bill, operation.bill);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, date, total, categories, bill);
     }
 }

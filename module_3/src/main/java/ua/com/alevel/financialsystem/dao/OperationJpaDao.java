@@ -23,6 +23,9 @@ public class OperationJpaDao {
         Transaction transaction = session.beginTransaction();
         try {
             User user = session.get(User.class, userId);
+            if (!user.getBills().contains(operation.getBill())) {
+                throw new RuntimeException();
+            }
             session.save(operation);
             transaction.commit();
         } catch (Exception e) {

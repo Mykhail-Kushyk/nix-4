@@ -20,9 +20,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 public class Application {
 
@@ -41,17 +39,7 @@ public class Application {
             properties.setProperty("password", reader.readLine());
             configuration.setProperty("hibernate.connection.username", properties.getProperty("username"));
             configuration.setProperty("hibernate.connection.password", properties.getProperty("password"));
-            try (SessionFactory sessionFactory = configuration.buildSessionFactory();
-                 Connection connection = DriverManager.getConnection(
-                         properties.getProperty("url"),
-                         properties.getProperty("username"),
-                         properties.getProperty("password")
-                 );
-                 Session session = sessionFactory.openSession()
-            ) {
-                OperationJpaDao jpaDao = new OperationJpaDao(session);
-                BillJpaDao billJpaDao = new BillJpaDao(session);
-                OperationJdbcDao jdbcDao = new OperationJdbcDao(connection);
+            try (SessionFactory sessionFactory = configuration.buildSessionFactory()) {
                 while (true) {
                     System.out.println("Menu: ");
                     System.out.println("0. Exit");
@@ -62,17 +50,27 @@ public class Application {
                     if (choice == 0) {
                         return;
                     } else if (choice == 1) {
-                        Operation operation = new Operation();
-                        scanOperation(operation, reader, billJpaDao);
-                        jpaDao.createOperation(operation, userId);
+                        try(Session session = sessionFactory.openSession()) {
+                            OperationJpaDao jpaDao = new OperationJpaDao(session);
+                            BillJpaDao billJpaDao = new BillJpaDao(session);
+                            Operation operation = new Operation();
+                            scanOperation(operation, reader, billJpaDao);
+                            jpaDao.createOperation(operation, userId);
+                        }
                     } else if (choice == 2) {
-                        System.out.println("First date");
-                        Instant toDate = scanDate(reader);
-                        System.out.println("Second date");
-                        Instant fromDate = scanDate(reader);
-                        System.out.print("Bill id: ");
-                        Long billId = Long.parseLong(reader.readLine());
-                        jdbcDao.getOperationsByDatesToCsv(toDate, fromDate, billId);
+                        try(Connection connection = DriverManager.getConnection(
+                                properties.getProperty("url"),
+                                properties.getProperty("username"),
+                                properties.getProperty("password"))) {
+                            System.out.println("First date");
+                            Instant toDate = scanDate(reader);
+                            System.out.println("Second date");
+                            Instant fromDate = scanDate(reader);
+                            System.out.print("Bill id: ");
+                            Long billId = Long.parseLong(reader.readLine());
+                            OperationJdbcDao jdbcDao = new OperationJdbcDao(connection);
+                            jdbcDao.getOperationsByDatesToCsv(toDate, fromDate, billId);
+                        }
                     }
 
                 }
@@ -112,7 +110,7 @@ public class Application {
 
     private void scanIncome(BufferedReader reader, Operation operation, int total) throws IOException {
 
-        Set<Category> categories = new HashSet<>();
+        List<Category> categories = new ArrayList<>();
         for (int i = 0; i < total; i++) {
             Income income = new Income();
             income.setOperation(operation);
@@ -127,7 +125,7 @@ public class Application {
 
     private void scanExpense(BufferedReader reader, Operation operation, int total) throws IOException {
 
-        Set<Category> categories = new HashSet<>();
+        List<Category> categories = new ArrayList<>();
         for (int i = 0; i < total; i++) {
             Expense expense = new Expense();
             expense.setOperation(operation);
