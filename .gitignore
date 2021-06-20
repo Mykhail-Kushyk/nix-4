@@ -23,3 +23,5 @@ dist/
 nbdist/
 .nb-gradle/
 /bin/
+/unit_13_jpa/
+/module_3/balance.txt
